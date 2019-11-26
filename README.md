@@ -4,12 +4,15 @@ This is just a quick an easy image I maintain for various projects I work with. 
 
 
 ## Docker images from this available on dockerhub
-* `nickmaccarthy/devops-runner:0.1.0` * First version.  Check git tags for info
+* `nickmaccarthy/devops-runner:0.1.0` * First version.  Woot!
 
 ## Usage
+* This image is primarilly built with the `build.playbook.yml` so check that out for what is actually being built inside the container.
 
 * Most of the installed items below will be available in your `$PATH` with their version appended in to the end like
 `terraform-0.11.10`, `kubectl-1.13.0`, `vault-1.2.4` etc etc.  
+
+* All the Ansible versions are installed into their own virtualenv's in `/venvs/ansible-venv-{{ ansible_version }}`.  Each of these venv's should have all the python packages as defined in `pip_items`
 
 * You can build this locally pretty easy with this command:
     * build it - `docker build -t devops-runner:<version> .`
@@ -20,21 +23,21 @@ This is just a quick an easy image I maintain for various projects I work with. 
 ### Source docker image
     * `python:3.8-buster`
 
-### Python versions
+### Python Versions
     * `2.7.16` - aka `python2.7` and `pip2.7` in `$PATH`
     * `3.8.0`
 
 ### Default Ansible version: 
     * `2.9.1`
 
-### ansible_versions:
+### Ansible Versions:
     * `2.9.1`
     * `2.8.7`
     * `2.6.20`
     * `2.5.15`
     * `2.4.6`
 
-### pip_items:
+### Installed Pip Modules:
     * `passlib`
     * `hvac`
     * `certifi`
@@ -47,7 +50,7 @@ This is just a quick an easy image I maintain for various projects I work with. 
     * `google-auth`
     * `azure`
   
-### vault_versions:
+### Vault Versions:
     * `0.11.6`
     * `1.0.3`
     * `1.1.5`
@@ -85,7 +88,7 @@ This is just a quick an easy image I maintain for various projects I work with. 
     * `1.15.0`
     * `1.16.0`
 
-## Versions - also check out git tagged versions
+## Image Versions - also check out git tagged versions
 * `0.1.0` - Inital version
 
 ## Changelog
