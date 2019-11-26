@@ -1,0 +1,137 @@
+- hosts:
+  - localhost
+  vars:
+    ansible_default_version: "2.9.1"
+    ansible_versions:
+      - "2.9.1"
+      - "2.8.7"
+      - "2.6.20"
+      - "2.5.15"
+      - "2.4.6"
+      
+    pip_items:
+      - passlib
+      - hvac 
+      - certifi
+      - boto
+      - boto3
+      - botocore
+      - aws
+      - awscli
+      - virtualenv
+      - google-auth
+      - azure
+  
+    vault_versions:
+      - "0.11.6"
+      - "1.0.3"
+      - "1.1.5"
+      - "1.2.4"
+      - "1.3.0"
+
+    consul_versions:
+      - "1.6.2"
+      - "1.5.3"
+      - "1.4.5"
+      - "1.3.1"
+      - "1.2.4"
+
+    terraform_versions:
+      - "0.11.10"
+      - "0.11.11"
+      - "0.11.12"
+      - "0.11.13"
+      - "0.11.14"
+      - "0.12.10"
+      - "0.12.11"
+      - "0.12.13"
+      - "0.12.14"
+      - "0.12.15"
+      - "0.12.16"
+
+    kubectl_versions:
+      - "1.8.0"
+      - "1.9.0"
+      - "1.10.0"
+      - "1.11.0"
+      - "1.12.0"
+      - "1.13.0"
+      - "1.14.0"
+      - "1.15.0"
+      - "1.16.0"
+
+  tasks:
+    - name: pip install of our items
+      pip:
+        name: "{{ pip_items }}"
+        executable: pip3
+
+    - name: Download, extract and install Terraform versions
+      shell: >
+        wget https://releases.hashicorp.com/terraform/{{ item }}/terraform_{{ item }}_linux_amd64.zip 
+        && unzip terraform_{{ item }}_linux_amd64.zip && mv -v terraform /bin/terraform-{{ item }} 
+        && rm terraform_{{ item }}_linux_amd64.zip
+      args:
+        chdir: /tmp
+        warn: false
+      with_items: "{{ terraform_versions }}"
+
+    - name: Download, extract and install our Hashicorp Vault versions
+      shell: >
+        wget -q https://releases.hashicorp.com/vault/{{ item }}/vault_{{ item }}_linux_amd64.zip
+        && unzip vault_{{ item }}_linux_amd64.zip
+        && mv -v vault /bin/vault-{{ item }}
+      args:
+        chdir: /tmp
+        warn: false
+      with_items: "{{ vault_versions }}"
+
+    - name: Download, extract and install our Hahsicorp Consul versions
+      shell: >
+        wget -q https://releases.hashicorp.com/consul/{{ item }}/consul_{{ item }}_linux_amd64.zip
+        && unzip consul_{{ item }}_linux_amd64.zip
+        && mv -v consul /bin/consul-{{item }}
+      args:
+        chdir: /tmp
+        warn: false
+      with_items: "{{ consul_versions }}"
+
+    - name: Download, chmod+x and install kubectl versions
+      shell: >
+        wget -q https://storage.googleapis.com/kubernetes-release/release/v{{ item }}/bin/linux/amd64/kubectl
+        && chmod +x kubectl 
+        && mv -v kubectl /bin/kubectl-{{ item }}
+      args:
+        chdir: /tmp
+        warn: false
+      with_items: "{{ kubectl_versions }}"
+
+    - name: Cleanup zip files in /tmp
+      shell: rm -rf /tmp/*.zip*
+      args:
+        warn: false
+
+    - name: Cleanup any kubctl stuff in /tmp
+      shell: rm -rf /tmp/kubectl*
+      args:
+        warn: false
+
+    - name: Install all of our Ansible versions
+      shell: >
+        export ENVDIR=/venvs/ansible-env-{{ item }}
+        && python3 -m virtualenv --system-site-packages $ENVDIR
+        && export PATH="$ENVDIR/bin:$PATH" 
+        && pip3 install 'ansible=={{ item }}'
+        && ln -s $ENVDIR/bin/ansible-playbook /usr/local/bin/ansible-playbook-{{ item }}
+        && ln -s $ENVDIR/bin/ansible /usr/local/bin/ansible-{{ item }}
+        && ln -s $ENVDIR/bin/ansible-galaxy /usr/local/bin/ansible-galaxy-{{ item }}
+        && ln -s $ENVDIR/bin/ansible-inventory /usr/local/bin/ansible-inventory-{{ item }}
+        && ln -s $ENVDIR/bin/ansible-config /usr/local/bin/ansible-config-{{ item }}
+        && ln -s $ENVDIR/bin/ansible-console /usr/local/bin/ansible-console-{{ item }}
+        && ln -s $ENVDIR/bin/ansible-vault /usr/local/bin/ansible-vault-{{ item }}
+        && ln -s $ENVDIR/bin/ansible-pull /usr/local/bin/ansible-pull-{{ item }}
+        && ln -s $ENVDIR/bin/ansible-doc /usr/local/bin/ansible-doc-{{ item }}
+      args:
+        warn: false
+        chdir: /root
+      with_items: "{{ ansible_versions }}"
