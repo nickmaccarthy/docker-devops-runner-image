@@ -4,6 +4,7 @@ This is just a quick an easy image I maintain for various projects I work with. 
 
 
 ## Docker images from this available on dockerhub
+* `nickmaccarthy/devops-runner:0.1.1` * Added `apt_packages` with packages such as `jq`.  See changelog for more info
 * `nickmaccarthy/devops-runner:0.1.0` * First version.  Woot!
 
 ## Usage
@@ -27,6 +28,15 @@ This is just a quick an easy image I maintain for various projects I work with. 
     * `2.7.16` - aka `python2.7` and `pip2.7` in `$PATH`
     * `3.8.0`
 
+### apt Packages:
+    * `jq`
+    * `zip`
+    * `unzip`
+    * `curl` 
+    * `wget` 
+    * `default-mysql-client`
+    * `postgresql-client`
+    
 ### Default Ansible version: 
     * `2.9.1`
 
@@ -89,8 +99,19 @@ This is just a quick an easy image I maintain for various projects I work with. 
     * `1.16.0`
 
 ## Image Versions - also check out git tagged versions
+* `0.1.1` - Added `apt_packages`.  `jq`, `mysql-client`, `postgressql-client`
 * `0.1.0` - Inital version
 
 ## Changelog
+#### 0.1.1 (2019-12-02)
+- Added `apt_packages` install task and the following packages
+    * `jq`
+    * `zip`
+    * `unzip`
+    * `curl` 
+    * `wget` 
+    * `default-mysql-client`
+    * `postgresql-client`
+
 #### 0.1.0 (2019-11-25)
-    Initial version
+- Initial version

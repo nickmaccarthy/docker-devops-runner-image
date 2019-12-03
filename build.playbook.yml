@@ -1,6 +1,15 @@
 - hosts:
   - localhost
   vars:
+    apt_packages:
+      - jq
+      - zip
+      - unzip
+      - curl 
+      - wget 
+      - default-mysql-client
+      - postgresql-client
+
     ansible_default_version: "2.9.1"
     ansible_versions:
       - "2.9.1"
@@ -61,6 +70,16 @@
       - "1.16.0"
 
   tasks:
+    # - name: Install apt Packages
+    #   apt:
+    #     name: "{{ os_packages }}"
+    # can't use the apt module here because of weird package dependcies 
+
+    - name: Install apt packages
+      shell: "apt update && apt install {{ apt_packages | join(' ') }} -y"
+      register: os_packages
+      failed_when: os_packages.rc != 0 and os_packages.rc != 2
+
     - name: pip install of our items
       pip:
         name: "{{ pip_items }}"
