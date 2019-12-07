@@ -4,7 +4,8 @@ This is just a quick an easy image I maintain for various projects I work with. 
 
 
 ## Docker images from this available on dockerhub
-* `nickmaccarthy/devops-runner:0.1.1` * Added `apt_packages` with packages such as `jq`.  See changelog for more info
+* `nickmaccarthy/devops-runner:0.1.2` - Added `apt_packages`: `ftp`, `traceroute`, `rsync`.  Added `pip_packages`: `molecule`, an ansible testing framework
+* `nickmaccarthy/devops-runner:0.1.1` * Added `apt_packages` with packages such as `jq`, `zip`, `unzip`, etc.  See changelog for more info
 * `nickmaccarthy/devops-runner:0.1.0` * First version.  Woot!
 
 ## Usage
@@ -36,6 +37,9 @@ This is just a quick an easy image I maintain for various projects I work with. 
     * `wget` 
     * `default-mysql-client`
     * `postgresql-client`
+    * `rsync`
+    * `ftp`
+    * `traceroute`
     
 ### Default Ansible version: 
     * `2.9.1`
@@ -59,6 +63,7 @@ This is just a quick an easy image I maintain for various projects I work with. 
     * `virtualenv`
     * `google-auth`
     * `azure`
+    * `molecule`
   
 ### Vault Versions:
     * `0.11.6`
@@ -103,6 +108,15 @@ This is just a quick an easy image I maintain for various projects I work with. 
 * `0.1.0` - Inital version
 
 ## Changelog
+#### 0.1.2 (2019-12-07)
+- Added
+    * `apt_packages`
+        * ftp
+        * traceroute
+        * rsync
+    * `pip_packages`
+        * molecule - An ansible testing framework
+
 #### 0.1.1 (2019-12-02)
 - Added `apt_packages` install task and the following packages
     * `jq`

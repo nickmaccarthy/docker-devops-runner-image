@@ -9,8 +9,12 @@
       - wget 
       - default-mysql-client
       - postgresql-client
+      - rsync
+      - ftp
+      - traceroute
 
     ansible_default_version: "2.9.1"
+    
     ansible_versions:
       - "2.9.1"
       - "2.8.7"
@@ -30,6 +34,7 @@
       - virtualenv
       - google-auth
       - azure
+      - molecule
   
     vault_versions:
       - "0.11.6"
